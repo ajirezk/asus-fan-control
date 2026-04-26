@@ -1,0 +1,26 @@
+[Unit]
+Description=ASUS Fan Control Daemon
+Documentation=https://github.com/ajirezk/asus-fan-control
+After=multi-user.target
+ConditionPathExists=/sys/class/hwmon
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/env python3 @APP_DIR@/fan_daemon.py run
+Restart=on-failure
+RestartSec=3
+User=root
+Nice=-5
+MemoryMax=100M
+MemoryHigh=80M
+CPUQuota=20%
+TasksMax=32
+IOSchedulingClass=best-effort
+IOSchedulingPriority=4
+ProtectSystem=strict
+PrivateTmp=true
+NoNewPrivileges=true
+ReadWritePaths=/sys/class/hwmon /home /root /var
+
+[Install]
+WantedBy=multi-user.target
